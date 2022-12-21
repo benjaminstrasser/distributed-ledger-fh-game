@@ -6,10 +6,15 @@
   "scripts": {
     "node": "hardhat node",
     "deploy-dev": "hardhat run --network localhost scripts/deploy.ts",
-    "test": "cross-env REPORT_GAS=true hardhat test"
+    "test": "cross-env REPORT_GAS=true hardhat test",
+    "build": "hardhat compile"
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "ethers": "^5.7.2",
+    "@ethersproject/providers": "^5.7.2"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.7",
