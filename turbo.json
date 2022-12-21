@@ -10,6 +10,9 @@
     },
     "dev": {
       "cache": false
+    },
+    "deploy-dev": {
+      "outputs": ["typechain-types/**", "cache/**", "artifacts/**"]
     }
   }
 }

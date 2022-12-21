@@ -1,0 +1,17 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "hardhat node",
+    "deploy-dev": "hardhat run scripts/deploy.ts",
+    "test": "REPORT_GAS=true hardhat test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "hardhat": "^2.12.4",
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0"
+  }
+}
