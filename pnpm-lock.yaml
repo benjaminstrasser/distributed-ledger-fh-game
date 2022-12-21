@@ -30,6 +30,7 @@ importers:
       hardhat-gas-reporter: ^1.0.9
       solidity-coverage: ^0.8.2
       ts-node: ^10.9.1
+      typechain: ^8.1.1
     devDependencies:
       '@nomicfoundation/hardhat-chai-matchers': 1.0.5_ja2q5v4zhslcm3ppoak5cbvw2i
       '@nomicfoundation/hardhat-network-helpers': 1.0.7_hardhat@2.12.4
@@ -43,6 +44,7 @@ importers:
       hardhat-gas-reporter: 1.0.9_hardhat@2.12.4
       solidity-coverage: 0.8.2_hardhat@2.12.4
       ts-node: 10.9.1_wup25etrarvlqkprac7h35hj7u
+      typechain: 8.1.1_typescript@4.9.3
 
   apps/web:
     specifiers:
