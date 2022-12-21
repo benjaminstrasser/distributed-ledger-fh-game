@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "hardhat node",
-    "deploy-dev": "hardhat run scripts/deploy.ts",
-    "test": "REPORT_GAS=true hardhat test"
+    "node": "hardhat node",
+    "deploy-dev": "hardhat run --network localhost scripts/deploy.ts",
+    "test": "cross-env REPORT_GAS=true hardhat test"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "hardhat": "^2.12.4",
-    "@nomicfoundation/hardhat-toolbox": "^2.0.0"
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "cross-env": "^7.0.3",
+    "hardhat": "^2.12.4"
   }
 }

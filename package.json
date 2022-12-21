@@ -3,8 +3,10 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "node": "turbo run node",
     "deploy-dev": "turbo run deploy-dev",
     "lint": "turbo run lint",
+    "test": "turbo run test --parallel",
     "format": "prettier --write ."
   },
   "devDependencies": {

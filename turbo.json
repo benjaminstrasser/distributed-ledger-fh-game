@@ -12,7 +12,13 @@
       "cache": false
     },
     "deploy-dev": {
-      "outputs": ["typechain-types/**", "cache/**", "artifacts/**"]
+      "outputs": ["typechain-types/**", "cache/**", "artifacts/**", "deployment-info"]
+    },
+    "node": {
+      "outputs": []
+    },
+    "test": {
+      "outputs": []
     }
   }
 }
