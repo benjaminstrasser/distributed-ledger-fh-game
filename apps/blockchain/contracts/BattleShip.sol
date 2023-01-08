@@ -24,18 +24,17 @@ contract BattleShip is ERC721, Ownable {
 
     event ShipCreated(address owner, uint256 shipId);
 
-    constructor(Ammo _ammoTokenContract, Armor _armorTokenContract) ERC721Burnable("FHCW_Battleship", "FHBSH") {
+    constructor(Ammo _ammoTokenContract, Armor _armorTokenContract) ERC721("FHCW_Battleship", "FHBSH") {
         ammoToken = _ammoTokenContract;
         armorToken = _armorTokenContract;
     }
 
-    function createShip(address receiver, string memory tokenURI) public payable returns (uint256) {
+    function createShip(address receiver) public payable returns (uint256) {
         require(msg.value == 0.01 ether, "Ship price is ETH 0.01: not enough!");
         _tokenIds.increment();
 
         uint256 newBattleShipTokenId = _tokenIds.current();
         _mint(receiver, newBattleShipTokenId);
-        _setTokenURI(newBattleShipTokenId, tokenURI);
         ammoToken.initializeAmmo(receiver, 10);
         armorToken.initializeArmor(receiver, 10);
         _ships.push(
@@ -53,7 +52,8 @@ contract BattleShip is ERC721, Ownable {
         require(_exists(defenderShipId));
         address attacker = ownerOf(attackerShipId);
         ammoToken.decreaseAmmo(attacker, 1);
-        armorToken.decreaseArmor(defenderShipId, 1);
+        address defender = ownerOf(defenderShipId);
+        armorToken.decreaseArmor(defender, 1);
         _ships[attackerShipId].armor--;
         _ships[defenderShipId].ammo--;
     }

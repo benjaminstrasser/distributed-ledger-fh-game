@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Armor is ERC20Burnable, Ownable {
-    constructor() ERC20Burnable("Armor", "ARM") {
+    constructor() ERC20("Armor", "ARM") {
     }
 
     function initializeArmor(address battleshipOwner, uint8 amount) public onlyOwner {
