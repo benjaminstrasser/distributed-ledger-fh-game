@@ -17,12 +17,12 @@ describe('Battleship', function () {
     const BattleShip = await ethers.getContractFactory('BattleShip');
     const battleShip = await BattleShip.deploy(ammo.address, armor.address);
 
-    return { armor, ammo, battleShip, owner, otherAccount };
+    return {armor, ammo, battleShip, owner, otherAccount};
   }
 
   describe('Deployment', function () {
     it('Should set the right owner', async function () {
-      const { armor, ammo, battleShip, owner } = await loadFixture(deployTokenFixture);
+      const {armor, ammo, battleShip, owner} = await loadFixture(deployTokenFixture);
 
       expect(await armor.owner()).to.equal(owner.address);
       expect(await ammo.owner()).to.equal(owner.address);
@@ -31,11 +31,18 @@ describe('Battleship', function () {
   });
 
   describe('Create Ship', function () {
-    it('Should create ship with right price', async function() {
-      const { armor, ammo, battleShip, owner, otherAccount } = await loadFixture(deployTokenFixture);
+    it('Should create ship with right price', async function () {
+      const {armor, ammo, battleShip, owner, otherAccount} = await loadFixture(deployTokenFixture);
       const BattleShip = await ethers.getContractFactory('BattleShip');
       let battleShipContract = BattleShip.attach(battleShip.address);
-      await expect(battleShipContract.connect(otherAccount).createShip(otherAccount.address,{ value: ethers.utils.parseEther("0.01") })).not.to.be.reverted;
+      await expect(battleShipContract.connect(otherAccount).createShip(otherAccount.address, {value: ethers.utils.parseEther('0.01')})).not.to.be.reverted;
+    });
+
+    it('Should not create ship with wrong price', async function () {
+      const {armor, ammo, battleShip, owner, otherAccount} = await loadFixture(deployTokenFixture);
+      const BattleShip = await ethers.getContractFactory('BattleShip');
+      let battleShipContract = BattleShip.attach(battleShip.address);
+      await expect(battleShipContract.connect(otherAccount).createShip(otherAccount.address, {value: ethers.utils.parseEther('0.001')})).to.be.revertedWith('Ship price is ETH 0.01: not enough!');
     });
   });
 
