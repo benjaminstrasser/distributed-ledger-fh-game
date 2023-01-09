@@ -35,8 +35,10 @@ contract BattleShip is ERC721, Ownable {
 
         uint256 newBattleShipTokenId = _tokenIds.current();
         _mint(receiver, newBattleShipTokenId);
-        address (ammoToken).delegatecall(abi.encodeWithSignature("initializeAmmo(address, uint8)", receiver, 10));
-        address (armorToken).delegatecall(abi.encodeWithSignature("initializeArmor(address, uint8)", receiver, 10));
+//        address (ammoToken).delegatecall(abi.encodeWithSignature("initializeAmmo(address, uint8)", receiver, 10));
+//        address (armorToken).delegatecall(abi.encodeWithSignature("initializeArmor(address, uint8)", receiver, 10));
+        ammoToken.initializeAmmo(receiver, 10);
+        armorToken.initializeArmor(receiver, 10);
         _ships.push(
             Ship({
                     ammo: 10,

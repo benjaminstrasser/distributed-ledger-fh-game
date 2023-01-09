@@ -8,11 +8,11 @@ contract Armor is ERC20Burnable, Ownable {
     constructor() ERC20("Armor", "ARM") {
     }
 
-    function initializeArmor(address battleshipOwner, uint8 amount) public onlyOwner {
+    function initializeArmor(address battleshipOwner, uint8 amount) public {
         _mint(battleshipOwner, amount);
     }
 
-    function decreaseArmor(address battleshipOwner, uint8 amount) public onlyOwner {
+    function decreaseArmor(address battleshipOwner, uint8 amount) public {
         _burn(battleshipOwner, amount);
     }
 }
