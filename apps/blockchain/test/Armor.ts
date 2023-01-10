@@ -4,7 +4,6 @@ import { expect } from 'chai';
 
 describe('Armor', function () {
   async function deployArmorTokenFixture() {
-
     // Contracts are deployed using the first signer/account by default
     const [owner, otherAccount] = await ethers.getSigners();
 
@@ -29,5 +28,4 @@ describe('Armor', function () {
       await expect(armor.connect(otherAccount).initializeArmor(owner.address, 10)).to.be.reverted;
     });
   });
-
 });

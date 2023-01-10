@@ -1,25 +1,39 @@
 <script lang="ts">
+    import type { BigNumber } from 'ethers';
     import { closeModal } from 'svelte-modals'
+
+    import ammoImage from "$lib/assets/ammo.png"
+    import armorImage from "$lib/assets/armor.jpg"
+
+    import type { BattleShip } from "blockchain";
+
   
     // provided by Modals
     export let isOpen: boolean
   
-    export let title: string
-    export let message: string
+    export let type: string
+    export let fromId: BigNumber
+    export let filteredShips: BattleShip.ShipStructOutput[]
+    export let action: (id: BigNumber) => void
+
+    async function handleClick(id: BigNumber) {
+        await action(id)
+        closeModal()
+    }
   </script>
   
   {#if isOpen}
   <div role="dialog" class="modal">
     <div class="contents">
-      <h2>{title}</h2>
-      <p>{message}</p>
+      <h2>{type}</h2>
       <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action active">
-          Cras justo odio
+        {#each filteredShips as ship}
+        <a href="#" on:click={() => handleClick(ship.id)} class="list-group-item list-group-item-action">
+            <h6 class="px-3">Battleship {ship.id}</h6>
+            {ship.ammo}<img src={ammoImage} width=25px height=25px class="img-fluid mb-2">
+            {ship.armor}<img src={armorImage} width=25px height=25px class="img-fluid mb-2">
         </a>
-        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-        <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+        {/each}
       </div>
     </div>
   </div>

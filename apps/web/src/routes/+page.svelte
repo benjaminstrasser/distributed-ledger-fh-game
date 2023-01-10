@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { switchAndAddEthereumChain , readLockContract, LOCAL_CHAIN, isMetamasConnected, isConnectedToCorrectChain, connectAccounts } from '$lib/blockchain-connection';
+  import { switchAndAddEthereumChain , LOCAL_CHAIN, isMetamasConnected, isConnectedToCorrectChain, connectAccounts } from '$lib/blockchain-connection';
   import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
 

@@ -14,4 +14,13 @@ contract Ammo is ERC20Burnable, Ownable {
     function decreaseAmmo(address battleshipOwner, uint8 amount) public onlyOwner {
         _burn(battleshipOwner, amount);
     }
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 amount
+    ) public override(ERC20) onlyOwner returns (bool) {
+        _transfer(from, to, amount);
+        return true;
+    }
 }

@@ -2,12 +2,13 @@
 pragma solidity ^0.8.9;
 
 import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol';
+import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import './Ammo.sol';
 import './Armor.sol';
 
-contract BattleShip is ERC721, Ownable {
+contract BattleShip is ERC721, Ownable, ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
@@ -44,7 +45,7 @@ contract BattleShip is ERC721, Ownable {
         return newBattleShipTokenId;
     }
 
-    function attack(uint160 attackerShipId, uint160 defenderShipId) public {
+    function attack(uint160 attackerShipId, uint160 defenderShipId) public nonReentrant {
         address attackerShipAddress = address(attackerShipId);
         address defenderShipAddress = address(defenderShipId);
 
@@ -57,14 +58,15 @@ contract BattleShip is ERC721, Ownable {
         require(lastAttack[attackerShipId] != block.number, 'Already Attacked this turn');
         require(lastHeal[defenderShipId] + 3 < block.number);
 
-        lastAttack[attackerShipId] = block.number;
-
         if (lastHeal[defenderShipId] + 3 < block.number && lastHeal[defenderShipId] != 0) {
             armorToken.increaseArmor(defenderShipAddress, 2);
             lastHeal[defenderShipId] = 0;
         }
 
-        if (lastAttack[attackerShipId] + 3 < block.number) {
+        if (
+            lastAttack[attackerShipId] + 3 < block.number &&
+            armorToken.balanceOf(defenderShipAddress) >= 2
+        ) {
             armorToken.decreaseArmor(defenderShipAddress, 2);
         } else {
             armorToken.decreaseArmor(defenderShipAddress, 1);
@@ -79,6 +81,8 @@ contract BattleShip is ERC721, Ownable {
                 ammoToken.balanceOf(defenderShipAddress)
             );
         }
+
+        lastAttack[attackerShipId] = block.number;
     }
 
     function getArmorContractAddress() public view onlyOwner returns (address) {
@@ -95,7 +99,7 @@ contract BattleShip is ERC721, Ownable {
         );
     }
 
-    function heal(uint160 id) external {
+    function heal(uint160 id) external nonReentrant {
         require(_ownerOf(id) == msg.sender);
         require(lastHeal[id] + 3 < block.number);
 
@@ -106,7 +110,7 @@ contract BattleShip is ERC721, Ownable {
         lastHeal[id] = block.number;
     }
 
-    function getShips() external view {
+    function getShips() external view returns (Ship[] memory) {
         uint counter = 0;
 
         for (uint160 i = 1; i <= _tokenIds.current(); i++) {
@@ -121,10 +125,14 @@ contract BattleShip is ERC721, Ownable {
 
         for (uint160 i = 1; i <= _tokenIds.current(); i++) {
             if (_exists(i)) {
+                uint healBonus = 0;
+                if (lastHeal[i] + 3 < block.number && lastHeal[i] != 0) {
+                    healBonus = 2;
+                }
                 Ship memory ship = Ship({
                     owner: _ownerOf(i),
                     id: i,
-                    armor: armorToken.balanceOf(address(i)),
+                    armor: armorToken.balanceOf(address(i)) + healBonus,
                     ammo: ammoToken.balanceOf(address(i)),
                     lastHeal: lastHeal[i],
                     LastShot: lastAttack[i]
@@ -133,6 +141,8 @@ contract BattleShip is ERC721, Ownable {
                 counter++;
             }
         }
+
+        return ships;
     }
 
     function getAmmoContractAddress() public view onlyOwner returns (address) {
