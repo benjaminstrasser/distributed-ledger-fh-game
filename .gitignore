@@ -30,3 +30,5 @@ yarn-error.log*
 .turbo
 
 .husky
+/.idea/
+/distributed-ledger-fh-game.iml
