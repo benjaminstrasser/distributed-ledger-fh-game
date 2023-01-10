@@ -114,7 +114,7 @@ export const LOCAL_CHAIN: AddEthereumChainParameter = {
 };
 
 export const GOERLI: AddEthereumChainParameter = {
-  chainId: '5',
+  chainId: '0x5',
   chainName: 'Goerli test network',
   nativeCurrency: {
     name: 'GoerliETH',
@@ -124,4 +124,4 @@ export const GOERLI: AddEthereumChainParameter = {
   rpcUrls: ['https://goerli.infura.io/v3/']
 };
 
-export const NETWORK = GOERLI
+export const NETWORK = LOCAL_CHAIN
