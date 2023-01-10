@@ -25,7 +25,7 @@ describe('Armor', function () {
     it('Should revert if not called from contract owner', async function () {
       const { armor, owner, otherAccount } = await loadFixture(deployArmorTokenFixture);
 
-      await expect(armor.connect(otherAccount).initializeArmor(owner.address, 10)).to.be.reverted;
+      await expect(armor.connect(otherAccount).increaseArmor(owner.address, 10)).to.be.reverted;
     });
   });
 });

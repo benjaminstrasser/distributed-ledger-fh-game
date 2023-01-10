@@ -7,8 +7,7 @@ async function main() {
   const battleShip = await BattleShip.deploy();
 
   await battleShip.deployed();
-  // deploymentAddressesBuilder.addDeployment('Ammo', ammo.address);
-  // deploymentAddressesBuilder.addDeployment('Armor', armor.address);
+
   deploymentAddressesBuilder.addDeployment('Battleship', battleShip.address);
 
   deploymentAddressesBuilder.generateDeploymentAddressesFile();
