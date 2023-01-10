@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { switchAndAddEthereumChain , LOCAL_CHAIN, isMetamasConnected, isConnectedToCorrectChain, connectAccounts } from '$lib/blockchain-connection';
+  import { switchAndAddEthereumChain , isMetamasConnected, isConnectedToCorrectChain, connectAccounts, NETWORK } from '$lib/blockchain-connection';
   import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
 
 
-  const chain = LOCAL_CHAIN
+  const chain = NETWORK
 
   const MM_STATE =  {
     NOT_CONNECTED: 0,
