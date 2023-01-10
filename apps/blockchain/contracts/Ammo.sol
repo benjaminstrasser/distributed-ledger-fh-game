@@ -9,11 +9,11 @@ contract Ammo is ERC20Burnable, Ownable {
     constructor() ERC20("Ammo", "AMM") {
     }
 
-    function initializeAmmo(address battleshipOwner, uint8 amount) public {
+    function initializeAmmo(address battleshipOwner, uint8 amount) public onlyOwner {
         _mint(battleshipOwner, amount);
     }
 
-    function decreaseAmmo(address battleshipOwner, uint8 amount) public {
+    function decreaseAmmo(address battleshipOwner, uint8 amount) public onlyOwner {
         _burn(battleshipOwner, amount);
     }
 }

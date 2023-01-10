@@ -11,22 +11,27 @@ async function main() {
   const Lock = await ethers.getContractFactory('Lock');
   const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
 
-  const Ammo = await ethers.getContractFactory('Ammo');
-  const ammo = await Ammo.deploy();
-
-  const Armor = await ethers.getContractFactory('Armor');
-  const armor = await Armor.deploy();
+  // const Ammo = await ethers.getContractFactory('Ammo');
+  // const ammo = await Ammo.deploy();
+  //
+  // const Armor = await ethers.getContractFactory('Armor');
+  // const armor = await Armor.deploy();
 
   await lock.deployed();
-  await ammo.deployed();
-  await armor.deployed();
+  // await ammo.deployed();
+  // await armor.deployed();
+
+  const BattleShip = await ethers.getContractFactory('BattleShip');
+  const battleShip = await BattleShip.deploy();
+
+  await battleShip.deployed();
 
   console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
 
   deploymentAddressesBuilder.addDeployment('Lock', lock.address);
-  deploymentAddressesBuilder.addDeployment('Ammo', ammo.address);
-  deploymentAddressesBuilder.addDeployment('Armor', armor.address);
-  // deploymentAddressesBuilder.addDeployment('Battleship', lock.address);
+  // deploymentAddressesBuilder.addDeployment('Ammo', ammo.address);
+  // deploymentAddressesBuilder.addDeployment('Armor', armor.address);
+  deploymentAddressesBuilder.addDeployment('Battleship', battleShip.address);
 
   deploymentAddressesBuilder.generateDeploymentAddressesFile();
 }

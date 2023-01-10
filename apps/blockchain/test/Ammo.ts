@@ -23,8 +23,7 @@ describe('Ammo', function () {
   });
 
   describe('Minting', function () {
-    // TODO: ensure access control to mint function
-    xit('Should revert if not called from contract owner', async function () {
+    it('Should revert if not called from contract owner', async function () {
       const { ammo, owner, otherAccount } = await loadFixture(deployAmmoTokenFixture);
 
       await expect(ammo.connect(otherAccount).initializeAmmo(owner.address, 10)).to.be.reverted;
