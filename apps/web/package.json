@@ -15,16 +15,21 @@
     "@metamask/detect-provider": "^2.0.0",
     "blockchain": "workspace:*",
     "ethers": "^5.7.2",
+    "svelte-modals": "^1.2.1",
+    "svelte-simple-modal": "^1.4.6",
     "ui": "workspace:*"
   },
   "devDependencies": {
+    "@popperjs/core": "^2.11.5",
     "@sveltejs/adapter-auto": "latest",
     "@sveltejs/kit": "latest",
+    "bootstrap": "^5.2.0",
     "cross-env": "^7.0.3",
     "eslint-config-custom": "workspace:*",
+    "sass": "^1.53.0",
     "svelte": "^3.44.0",
     "svelte-check": "^2.7.1",
-    "svelte-preprocess": "^4.10.6",
+    "svelte-preprocess": "^4.10.7",
     "tslib": "^2.3.1",
     "typescript": "^4.7.2",
     "vite": "^4.0.0"

@@ -1,25 +1,72 @@
 <script lang="ts">
-  import { switchAndAddEthereumChain , readLockContract, LOCAL_CHAIN } from '$lib/blockchain-connection';
-  import { MyCounterButton } from 'ui';
+  import { switchAndAddEthereumChain , readLockContract, LOCAL_CHAIN, isMetamasConnected, isConnectedToCorrectChain, connectAccounts } from '$lib/blockchain-connection';
+  import { goto } from '$app/navigation';
+    import { onMount } from 'svelte';
 
-  async function test() {
-	await switchAndAddEthereumChain(LOCAL_CHAIN)
+
+  const chain = LOCAL_CHAIN
+
+  const MM_STATE =  {
+    NOT_CONNECTED: 0,
+    CONNECTED: 1,
+    CORRECT_CHAIN: 2
+  } as const
+
+  type MMValues = typeof MM_STATE[keyof typeof MM_STATE]
+
+  let state: MMValues
+  
+  onMount(async () => {
+    await updateState()
+    if(state === MM_STATE.CORRECT_CHAIN){
+      goto("/ships")
+    }
+  })
+
+
+  async function updateState(){
+    if(!(await isMetamasConnected())){
+      state = MM_STATE.NOT_CONNECTED
+      return;
+    }
+    if(!(await(isConnectedToCorrectChain(chain.chainId)))){
+      state = MM_STATE.CONNECTED
+      return;
+    }
+    state = MM_STATE.CORRECT_CHAIN
+  }
+
+  async function onclick(){
+    switch(state){
+      case MM_STATE.NOT_CONNECTED:
+        await connectAccounts()
+        break
+      case MM_STATE.CONNECTED:
+        await switchAndAddEthereumChain(chain)
+        break
+      case MM_STATE.CORRECT_CHAIN:
+        goto("/ships")
+        break
+    }
+    updateState()
+  }
+
+  let name: string
+  $: name = getName(state)
+
+  function getName(state: MMValues){
+    switch(state){
+      case MM_STATE.NOT_CONNECTED:
+        return "Connect to Metamask"
+      case MM_STATE.CONNECTED:
+        return "Connect to Chain"
+      case MM_STATE.CORRECT_CHAIN:
+        return "Go to ships!"
+    }
   }
 
 </script>
 
-<h1>Web</h1>
+<h1>Metamask Setup</h1>
 
-{#await $readLockContract.unlockTime()}
-	<p>...waiting</p>
-{:then unlockTime}
-	<p>Funds locked until {new Date(unlockTime*1000).toLocaleString()}</p>
-{:catch error}
-	<p style="color: red">{error.message}</p>
-{/await}
-
-<button on:click={test}>getProvider</button>
-
-<MyCounterButton />
-
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<button on:click={onclick}>{name}</button>
