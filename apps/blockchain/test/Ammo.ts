@@ -25,7 +25,7 @@ describe('Ammo', function () {
     it('Should revert if not called from contract owner', async function () {
       const { ammo, owner, otherAccount } = await loadFixture(deployAmmoTokenFixture);
 
-      await expect(ammo.connect(otherAccount).initializeAmmo(owner.address, 10)).to.be.reverted;
+      await expect(ammo.connect(otherAccount).increaseAmmo(owner.address, 10)).to.be.reverted;
     });
   });
 });
